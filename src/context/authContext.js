@@ -1,7 +1,7 @@
-import React, { Component, createContext } from 'react';
+import React, { Component, createContext, useState } from 'react';
 
 export const AuthContext = createContext();
-
+/*
 class AuthContextProvider extends Component {
     state = { 
         isLoggedIn: false
@@ -16,6 +16,22 @@ class AuthContextProvider extends Component {
             </AuthContext.Provider>
         );
     }
-}
+}*/
+
+//Alternative method using useState hook
+const AuthContextProvider = ({ children }) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const changeAuthStatus = () => {
+    setIsLoggedIn( !isLoggedIn );
+    };
+ 
+        return (
+            <AuthContext.Provider value={{ isLoggedIn, changeAuthStatus }}>
+                {children}
+            </AuthContext.Provider>
+        );
+    };
+
  
 export default AuthContextProvider;
