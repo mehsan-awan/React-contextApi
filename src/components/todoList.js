@@ -1,4 +1,4 @@
-import React, { Component, useContext, useState } from 'react';
+import React, {  useContext, useState } from 'react';
 import { ThemeContext } from '../context/themeContext';
 import { TodoListContext } from '../context/todoListContext';
 /*
@@ -24,7 +24,8 @@ class TodoList extends Component {
 const TodoList = () => {
     const [todo, setTodo] = useState('');
 
-    const { todos, addTodo, removeTodo } = useContext(TodoListContext)
+    // const { todos, addTodo, removeTodo } = useContext(TodoListContext)
+    const { todos, dispatch } = useContext(TodoListContext) //Using Reducers
     const { isDarkTheme, darkTheme, lightTheme, changeTheme} = useContext(ThemeContext);
     const theme = isDarkTheme ? darkTheme : lightTheme;
 
@@ -34,12 +35,15 @@ const TodoList = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        addTodo(todo);
+        // addTodo(todo);
         setTodo('');
+        dispatch({ type: 'ADD_TODO', text: todo });  //Using Reducers
     };
 
     const handleRemoveTodo = (e) => {
-        removeTodo(e.target.id);
+        // removeTodo(e.target.id);
+        const id = e.target.id;
+        dispatch({ type: 'REMOVE_TODO', id });  //Using Reducers
     }
 
     return (
@@ -60,7 +64,7 @@ const TodoList = () => {
                 <p className='item'>Go for a walk</p> */}
                 <form onSubmit={handleFormSubmit} >
                     <label htmlFor='todo'>Add Todo</label>
-                    <input id='todo' type='text' onChange={handleChange}/>
+                    <input id='todo' value={todo} type='text' onChange={handleChange}/>
                     <input type='submit' value='Add new todo' className='ui button primary' />
                 </form>
 
